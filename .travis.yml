@@ -26,8 +26,11 @@ script:
 - curl localhost:8080 &
 - sleep 1
 - http :8080/api/v1/save-message body=mongodb1
+- sleep 1
 - http :8080/api/v1/send-message body=kafka1
+- sleep 1
 - http :8080/api/v1/save-message body=mongodb2
+- sleep 1
 - http :8080/api/v1/send-message body=kafka2
 - sleep 1
 - stop_any 8080
@@ -38,8 +41,11 @@ script:
 - curl localhost:8080 &
 - sleep 1
 - http :8080/api/v1/save-message body=mongodb1
+- sleep 1
 - http :8080/api/v1/send-message body=kafka1
+- sleep 1
 - http :8080/api/v1/save-message body=mongodb2
+- sleep 1
 - http :8080/api/v1/send-message body=kafka2
 - sleep 1
 - stop_any 8080
