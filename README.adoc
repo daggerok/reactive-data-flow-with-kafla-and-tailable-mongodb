@@ -1,0 +1,37 @@
+= reactive-data-flow-with-kafla-and-tailable-mongodb image:https://travis-ci.org/daggerok/reactive-webflux-data-flow-with-embedded-kafla-and-tailable-mongodb-capped-collection.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/reactive-webflux-data-flow-with-embedded-kafla-and-tailable-mongodb-capped-collection"]
+
+//tag::content[]
+
+This repository contains webflux application with reactive-data-flow for @Tailable capped collection of embedded embedded and embeeded kafla message broker
+
+=== idea install
+
+. link:https://github.com/square/dagger-intellij-plugin/blob/master/dagger-intellij-plugin.jar[download plugin]
+. `Command + ,` -> plugins -> Install plugin from disk
+
+import as maven (gradle not recognized Dagger annotation processed classes, such as DaggerApp_AppComponent)
+
+.build and start
+----
+# gradle                   # or maven
+bash ./gradlew             # or `bash ./mvnw`
+java -jar build/libs/*.jar # or `java -jar target/*.jar`
+----
+
+.connect online clients and watch
+----
+curl 127.0.0.1:8080
+open http://127.0.0.1:8080 # browser
+----
+
+.save data via @Tailable mongodb collection
+----
+http :8080/api/v1/save-message body=mongodb
+----
+
+.send message for saving via kafka broker
+----
+http :8080/api/v1/send-message body=kafka
+----
+
+//end::content[]

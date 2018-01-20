@@ -1,0 +1,52 @@
+buildscript {
+  ext {
+    springBootVersion = "2.0.0.M7"
+  }
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+  }
+}
+
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "maven"
+apply plugin: "eclipse"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+group = "daggerok"
+version = "0.0.1"
+sourceCompatibility = 1.8
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven { url "https://repo.spring.io/snapshot" }
+  maven { url "https://repo.spring.io/milestone" }
+}
+
+task wrapper(type: Wrapper) {
+  distributionType = "ALL"
+  gradleVersion = "4.4.1"
+}
+
+dependencies {
+  compile("com.jayway.jsonpath:json-path")
+  compile("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+  compile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
+  compile("org.springframework.kafka:spring-kafka")
+  compile("org.springframework.kafka:spring-kafka-test")
+  compile("org.springframework.boot:spring-boot-starter-webflux")
+  runtime("org.springframework.boot:spring-boot-devtools")
+  compileOnly("org.projectlombok:lombok")
+  testCompile("org.springframework.boot:spring-boot-starter-test")
+  testCompile("io.projectreactor:reactor-test")
+}
+
+defaultTasks "clean", "build"

@@ -1,0 +1,50 @@
+sudo: required
+group: travis_lts
+
+env:
+  global:
+    TERM=dumb
+
+language: java
+jdk:
+- openjdk8
+- oraclejdk8
+
+install: true
+before_install:
+- sudo apt update -y | true
+- sudo apt install -y curl python-pip
+- sudo pip install httpie
+- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+- stop_any 5432 5672 27017 8080
+
+script:
+# gradle
+- bash gradlew
+- java -jar build/libs/*.jar &
+- wait_for 8080
+- curl localhost:8080 &
+- sleep 1
+- http :8080/api/v1/save-message body=mongodb1
+- http :8080/api/v1/send-message body=kafka1
+- http :8080/api/v1/save-message body=mongodb2
+- http :8080/api/v1/send-message body=kafka2
+- sleep 1
+- stop_any 8080
+# maven
+- bash mvnw
+- java -jar target/*.jar &
+- wait_for 8080
+- curl localhost:8080 &
+- sleep 1
+- http :8080/api/v1/save-message body=mongodb1
+- http :8080/api/v1/send-message body=kafka1
+- http :8080/api/v1/save-message body=mongodb2
+- http :8080/api/v1/send-message body=kafka2
+- sleep 1
+- stop_any 8080
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.gradle
